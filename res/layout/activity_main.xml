@@ -2,20 +2,59 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_color" >
+    android:background="#EEEEEE" >
 
-    <include
-        android:id="@+id/titlebar"
-        android:layout_width="fill_parent"
-        layout="@layout/title_bar" />
+    <me.maxwin.view.XListView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fastScrollEnabled="true"
+        android:scrollbars="vertical" />
+    <!-- <include -->
+    <!-- android:id="@+id/titlebar" -->
+    <!-- android:layout_width="fill_parent" -->
+    <!-- layout="@layout/title_bar" /> -->
 
-    <ImageView
-        android:id="@+id/img_create"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="40dp"
-        android:src="@drawable/icon_create_scene" />
+
+    <!-- <in.srain.cube.views.ptr.PtrClassicFrameLayout -->
+    <!-- xmlns:cube_ptr="http://schemas.android.com/apk/res-auto" -->
+    <!-- android:id="@+id/rotate_header_grid_view_frame" -->
+    <!-- android:layout_width="match_parent" -->
+    <!-- android:layout_height="match_parent" -->
+    <!-- android:layout_below="@+id/titlebar" -->
+    <!-- cube_ptr:ptr_duration_to_close="200" -->
+    <!-- cube_ptr:ptr_duration_to_close_header="1000" -->
+    <!-- cube_ptr:ptr_keep_header_when_refresh="true" -->
+    <!-- cube_ptr:ptr_pull_to_fresh="false" -->
+    <!-- cube_ptr:ptr_ratio_of_header_height_to_refresh="1.2" -->
+    <!-- cube_ptr:ptr_resistance="1.7" > -->
+
+
+    <!-- <GridView -->
+    <!-- android:id="@+id/rotate_header_grid_view" -->
+    <!-- android:layout_width="match_parent" -->
+    <!-- android:layout_height="match_parent" -->
+    <!-- android:fadingEdge="none" -->
+    <!-- android:focusable="false" -->
+    <!-- android:horizontalSpacing="5dip" -->
+    <!-- android:listSelector="@android:color/transparent" -->
+    <!-- android:numColumns="2" -->
+    <!-- android:paddingBottom="12dp" -->
+    <!-- android:paddingLeft="12dp" -->
+    <!-- android:paddingRight="12dp" -->
+    <!-- android:scrollbars="none" -->
+    <!-- android:stretchMode="columnWidth" -->
+    <!-- android:verticalSpacing="5dip" /> -->
+    <!-- </in.srain.cube.views.ptr.PtrClassicFrameLayout> -->
+
+
+    <!-- <ImageView -->
+    <!-- android:id="@+id/img_create" -->
+    <!-- android:layout_width="wrap_content" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:layout_alignParentBottom="true" -->
+    <!-- android:layout_centerHorizontal="true" -->
+    <!-- android:layout_marginBottom="40dp" -->
+    <!-- android:src="@drawable/icon_create_scene" /> -->
 
 </RelativeLayout>
