@@ -1,5 +1,6 @@
 package com.biyanzhi.activity;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -13,9 +14,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.AsyncTask.Status;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,20 +27,31 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.biyanzhi.R;
+import com.biyanzhi.chooseimage.SelectPhotoActivity;
+import com.biyanzhi.popwindow.SelectPicPopwindow;
+import com.biyanzhi.popwindow.SelectPicPopwindow.SelectOnclick;
+import com.biyanzhi.utils.Constants;
+import com.biyanzhi.utils.FileUtils;
+import com.biyanzhi.utils.UniversalImageLoadTool;
 import com.dodola.model.DuitangInfo;
 import com.dodowaterfall.Helper;
 import com.dodowaterfall.widget.ScaleImageView;
 import com.example.android.bitmapfun.util.ImageFetcher;
 
-public class MainActivity extends BaseActivity implements IXListViewListener {
+public class MainActivity extends BaseActivity implements IXListViewListener,
+		SelectOnclick {
 	private ImageFetcher mImageFetcher;
 	private XListView mAdapterView = null;
 	private StaggeredAdapter mAdapter = null;
 	private int currentPage = 0;
 	ContentTask task = new ContentTask(this, 2);
+	private SelectPicPopwindow pop;
+	private ImageView img_select;
+	private String cameraPath = "";
 
 	private class ContentTask extends
 			AsyncTask<String, Integer, List<DuitangInfo>> {
@@ -176,7 +191,13 @@ public class MainActivity extends BaseActivity implements IXListViewListener {
 			holder.imageView.setImageHeight(duitangInfo.getHeight());
 			System.out.println("hight::::::::::;" + duitangInfo.getHeight());
 			holder.contentView.setText(duitangInfo.getMsg());
-			mImageFetcher.loadImage(duitangInfo.getIsrc(), holder.imageView);
+			// mImageFetcher.loadImage(duitangInfo.getIsrc(), holder.imageView);
+			String path = duitangInfo.getIsrc();
+			if (!path.startsWith("http")) {
+				path = "file://" + path;
+			}
+			UniversalImageLoadTool.disPlay(path, holder.imageView,
+					R.drawable.empty_photo);
 			return convertView;
 		}
 
@@ -212,7 +233,6 @@ public class MainActivity extends BaseActivity implements IXListViewListener {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -225,6 +245,12 @@ public class MainActivity extends BaseActivity implements IXListViewListener {
 
 		mImageFetcher = new ImageFetcher(this, 240);
 		mImageFetcher.setLoadingImage(R.drawable.empty_photo);
+		initView();
+	}
+
+	private void initView() {
+		img_select = (ImageView) findViewById(R.id.img_create);
+		img_select.setOnClickListener(this);
 	}
 
 	@Override
@@ -234,7 +260,6 @@ public class MainActivity extends BaseActivity implements IXListViewListener {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-
 		return true;
 	}
 
@@ -243,7 +268,7 @@ public class MainActivity extends BaseActivity implements IXListViewListener {
 		super.onResume();
 		mImageFetcher.setExitTasksEarly(false);
 		mAdapterView.setAdapter(mAdapter);
-		AddItemToContainer(currentPage, 2);
+		// AddItemToContainer(currentPage, 2);
 	}
 
 	@Override
@@ -263,7 +288,80 @@ public class MainActivity extends BaseActivity implements IXListViewListener {
 		AddItemToContainer(++currentPage, 2);
 
 	}
-}// end of class
+
+	@Override
+	public void onClick(View v) {
+		super.onClick(v);
+		switch (v.getId()) {
+		case R.id.img_create:
+			pop = new SelectPicPopwindow(this, v, "拍照", "从相册选择");
+			pop.setmSelectOnclick(this);
+			pop.show();
+			break;
+
+		default:
+			break;
+		}
+	}
+
+	@Override
+	public void menu1_select() {
+		String name = FileUtils.getFileName() + ".jpg";
+		cameraPath = FileUtils.getCameraPath() + File.separator + name;
+		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		// 下面这句指定调用相机拍照后的照片存储的路径
+		intent.putExtra(MediaStore.EXTRA_OUTPUT,
+				Uri.fromFile(new File(cameraPath)));
+		startActivityForResult(intent, Constants.REQUEST_CODE_GETIMAGE_BYCAMERA);
+	}
+
+	@Override
+	public void menu2_select() {
+		Intent intent = new Intent();
+		intent.putExtra("count", 0);
+		intent.setClass(this, SelectPhotoActivity.class);
+		startActivityForResult(intent,
+				Constants.REQUEST_CODE_GETIMAGE_BYSDCARD_MORE);
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode == Constants.REQUEST_CODE_GETIMAGE_BYSDCARD_MORE) {
+			if (resultCode == RESULT_OK) {
+				Bundle bundle = data.getExtras();
+				@SuppressWarnings("unchecked")
+				List<String> list = (List<String>) bundle
+						.getSerializable("imgPath");
+				List<DuitangInfo> result = new ArrayList<DuitangInfo>();
+				for (String m : list) {
+					DuitangInfo info = new DuitangInfo();
+					info.setHeight(500);
+					info.setIsrc(m);
+					info.setMsg("aaaaaaaaaaaaa");
+					result.add(info);
+				}
+				mAdapter.addItemLast(result);
+				mAdapter.notifyDataSetChanged();
+			}
+		}
+		// 拍摄图片
+		else if (requestCode == Constants.REQUEST_CODE_GETIMAGE_BYCAMERA) {
+			if (resultCode != RESULT_OK) {
+				return;
+			}
+			File file = new File(cameraPath);
+			if (!file.exists()) {
+				// ToastUtil.showToast("图片获取失败，请重新获取", Toast.LENGTH_SHORT);
+				return;
+			}
+
+			// photoPathLists.add(photoPathLists.size() - 1, cameraPath);
+		}
+	}
+}
+
+// end of class
 // public class MainActivity extends BaseActivity {
 // private PtrClassicFrameLayout mPtrFrame;
 //

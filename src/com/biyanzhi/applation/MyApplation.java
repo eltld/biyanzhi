@@ -6,6 +6,8 @@ import java.util.List;
 import android.app.Activity;
 import android.app.Application;
 
+import com.biyanzhi.chooseimage.CheckImageLoaderConfiguration;
+
 public class MyApplation extends Application {
 	private static MyApplation instance;
 
@@ -15,6 +17,8 @@ public class MyApplation extends Application {
 	public void onCreate() {
 		super.onCreate();
 		instance = this;
+		CheckImageLoaderConfiguration.checkImageLoaderConfiguration(this);
+
 	}
 
 	public static MyApplation getInstance() {
