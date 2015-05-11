@@ -7,9 +7,10 @@ public class DuitangInfo {
 	private String msg = "";
 	private String isrc = "";
 
-	public int getWidth(){
+	public int getWidth() {
 		return 200;
 	}
+
 	public String getAlbid() {
 		return albid;
 	}

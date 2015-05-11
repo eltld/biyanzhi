@@ -44,100 +44,13 @@ import com.example.android.bitmapfun.util.ImageFetcher;
 
 public class MainActivity extends BaseActivity implements IXListViewListener,
 		SelectOnclick {
-	private ImageFetcher mImageFetcher;
+	// private ImageFetcher mImageFetcher;
 	private XListView mAdapterView = null;
 	private StaggeredAdapter mAdapter = null;
 	private int currentPage = 0;
-	ContentTask task = new ContentTask(this, 2);
 	private SelectPicPopwindow pop;
 	private ImageView img_select;
 	private String cameraPath = "";
-
-	private class ContentTask extends
-			AsyncTask<String, Integer, List<DuitangInfo>> {
-
-		private Context mContext;
-		private int mType = 1;
-
-		public ContentTask(Context context, int type) {
-			super();
-			mContext = context;
-			mType = type;
-		}
-
-		@Override
-		protected List<DuitangInfo> doInBackground(String... params) {
-			try {
-				return parseNewsJSON(params[0]);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			return null;
-		}
-
-		@Override
-		protected void onPostExecute(List<DuitangInfo> result) {
-			if (mType == 1) {
-
-				mAdapter.addItemTop(result);
-				mAdapter.notifyDataSetChanged();
-				mAdapterView.stopRefresh();
-
-			} else if (mType == 2) {
-				mAdapterView.stopLoadMore();
-				mAdapter.addItemLast(result);
-				mAdapter.notifyDataSetChanged();
-			}
-
-		}
-
-		@Override
-		protected void onPreExecute() {
-		}
-
-		public List<DuitangInfo> parseNewsJSON(String url) throws IOException {
-			List<DuitangInfo> duitangs = new ArrayList<DuitangInfo>();
-			String json = "";
-			if (Helper.checkConnection(mContext)) {
-				try {
-					json = Helper.getStringFromUrl(url);
-
-				} catch (IOException e) {
-					Log.e("IOException is : ", e.toString());
-					e.printStackTrace();
-					return duitangs;
-				}
-			}
-			Log.d("MainActiivty", "json:" + json);
-
-			try {
-				if (null != json) {
-					JSONObject newsObject = new JSONObject(json);
-					JSONObject jsonObject = newsObject.getJSONObject("data");
-					JSONArray blogsJson = jsonObject.getJSONArray("blogs");
-
-					for (int i = 0; i < blogsJson.length(); i++) {
-						JSONObject newsInfoLeftObject = blogsJson
-								.getJSONObject(i);
-						DuitangInfo newsInfo1 = new DuitangInfo();
-						newsInfo1
-								.setAlbid(newsInfoLeftObject.isNull("albid") ? ""
-										: newsInfoLeftObject.getString("albid"));
-						newsInfo1
-								.setIsrc(newsInfoLeftObject.isNull("isrc") ? ""
-										: newsInfoLeftObject.getString("isrc"));
-						newsInfo1.setMsg(newsInfoLeftObject.isNull("msg") ? ""
-								: newsInfoLeftObject.getString("msg"));
-						newsInfo1.setHeight(newsInfoLeftObject.getInt("iht"));
-						duitangs.add(newsInfo1);
-					}
-				}
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-			return duitangs;
-		}
-	}
 
 	/**
 	 * 添加内容
@@ -147,25 +60,14 @@ public class MainActivity extends BaseActivity implements IXListViewListener,
 	 *            1为下拉刷新 2为加载更多
 	 */
 	private void AddItemToContainer(int pageindex, int type) {
-		if (task.getStatus() != Status.RUNNING) {
-			String url = "http://www.duitang.com/album/1733789/masn/p/"
-					+ pageindex + "/24/";
-			Log.d("MainActivity", "current url:" + url);
-			ContentTask task = new ContentTask(this, type);
-			task.execute(url);
 
-		}
 	}
 
 	public class StaggeredAdapter extends BaseAdapter {
-		private Context mContext;
 		private LinkedList<DuitangInfo> mInfos;
-		private XListView mListView;
 
 		public StaggeredAdapter(Context context, XListView xListView) {
-			mContext = context;
 			mInfos = new LinkedList<DuitangInfo>();
-			mListView = xListView;
 		}
 
 		@Override
@@ -179,7 +81,7 @@ public class MainActivity extends BaseActivity implements IXListViewListener,
 						.getContext());
 				convertView = layoutInflator.inflate(R.layout.infos_list, null);
 				holder = new ViewHolder();
-				holder.imageView = (ScaleImageView) convertView
+				holder.imageView = (ImageView) convertView
 						.findViewById(R.id.news_pic);
 				holder.contentView = (TextView) convertView
 						.findViewById(R.id.news_title);
@@ -187,8 +89,8 @@ public class MainActivity extends BaseActivity implements IXListViewListener,
 			}
 
 			holder = (ViewHolder) convertView.getTag();
-			holder.imageView.setImageWidth(duitangInfo.getWidth());
-			holder.imageView.setImageHeight(duitangInfo.getHeight());
+			// holder.imageView.setImageWidth(duitangInfo.getWidth());
+			// holder.imageView.setImageHeight(duitangInfo.getHeight());
 			System.out.println("hight::::::::::;" + duitangInfo.getHeight());
 			holder.contentView.setText(duitangInfo.getMsg());
 			// mImageFetcher.loadImage(duitangInfo.getIsrc(), holder.imageView);
@@ -202,7 +104,7 @@ public class MainActivity extends BaseActivity implements IXListViewListener,
 		}
 
 		class ViewHolder {
-			ScaleImageView imageView;
+			ImageView imageView;
 			TextView contentView;
 			TextView timeView;
 		}
@@ -240,11 +142,8 @@ public class MainActivity extends BaseActivity implements IXListViewListener,
 		mAdapterView = (XListView) findViewById(R.id.list);
 		mAdapterView.setPullLoadEnable(true);
 		mAdapterView.setXListViewListener(this);
-
 		mAdapter = new StaggeredAdapter(this, mAdapterView);
-
-		mImageFetcher = new ImageFetcher(this, 240);
-		mImageFetcher.setLoadingImage(R.drawable.empty_photo);
+		mAdapterView.setAdapter(mAdapter);
 		initView();
 	}
 
@@ -263,13 +162,7 @@ public class MainActivity extends BaseActivity implements IXListViewListener,
 		return true;
 	}
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-		mImageFetcher.setExitTasksEarly(false);
-		mAdapterView.setAdapter(mAdapter);
-		// AddItemToContainer(currentPage, 2);
-	}
+	
 
 	@Override
 	protected void onDestroy() {
@@ -336,7 +229,7 @@ public class MainActivity extends BaseActivity implements IXListViewListener,
 				List<DuitangInfo> result = new ArrayList<DuitangInfo>();
 				for (String m : list) {
 					DuitangInfo info = new DuitangInfo();
-					info.setHeight(500);
+					info.setHeight(300);
 					info.setIsrc(m);
 					info.setMsg("aaaaaaaaaaaaa");
 					result.add(info);

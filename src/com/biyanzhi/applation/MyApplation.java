@@ -3,10 +3,10 @@ package com.biyanzhi.applation;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.biyanzhi.utils.CheckImageLoaderConfiguration;
+
 import android.app.Activity;
 import android.app.Application;
-
-import com.biyanzhi.chooseimage.CheckImageLoaderConfiguration;
 
 public class MyApplation extends Application {
 	private static MyApplation instance;

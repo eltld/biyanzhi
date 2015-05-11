@@ -6,11 +6,16 @@
     android:background="@drawable/news_item_bg"
     android:orientation="vertical" >
 
-    <com.dodowaterfall.widget.ScaleImageView
+    <!-- com.dodowaterfall.widget.ScaleImageView -->
+
+    <ImageView
         android:id="@+id/news_pic"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
         android:src="@null" />
+    <!-- centerCrop -->
 
     <TextView
         android:id="@+id/news_title"
@@ -25,6 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="right|bottom"
         android:gravity="right"
-        android:textColor="#9f9f9f" />
+        android:textColor="#9f9f9f"
+        android:visibility="gone" />
 
 </LinearLayout>

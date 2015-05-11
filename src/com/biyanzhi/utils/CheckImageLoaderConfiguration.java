@@ -1,4 +1,4 @@
-package com.biyanzhi.chooseimage;
+package com.biyanzhi.utils;
 
 import android.content.Context;
 

@@ -1,8 +1,10 @@
 package com.biyanzhi.utils;
 
+import java.io.File;
 import java.io.IOException;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 
@@ -57,5 +59,43 @@ public class BitmapUtils {
 
 		}
 		return bitmap;
+	}
+
+	/**
+	 * / 按图片大小(字节大小)缩放图片
+	 * 
+	 * @param path
+	 * @return
+	 */
+	public static Bitmap FitSizeImg(String path) {
+		if (path == null || path.length() < 1)
+			return null;
+		File file = new File(path);
+		Bitmap resizeBmp = null;
+		BitmapFactory.Options opts = new BitmapFactory.Options();
+		// 数字越大读出的图片占用的heap越小 不然总是溢出
+		if (file.length() < 20480) { // 0-20k
+			opts.inSampleSize = 1;
+		} else if (file.length() < 51200) { // 20-50k
+			opts.inSampleSize = 2;
+		} else if (file.length() < 307200) { // 50-300k
+			opts.inSampleSize = 4;
+		} else if (file.length() < 819200) { // 300-800k
+			opts.inSampleSize = 6;
+		} else if (file.length() < 1048576) { // 800-1024k
+			opts.inSampleSize = 8;
+		} else {
+			opts.inSampleSize = 10;
+		}
+		resizeBmp = BitmapFactory.decodeFile(file.getPath(), opts);
+		return resizeBmp;
+	}
+
+	public static int getBitmapHeight(String path) {
+		Bitmap bmp = FitSizeImg(path);
+		if (bmp != null) {
+			return bmp.getHeight();
+		}
+		return 0;
 	}
 }
