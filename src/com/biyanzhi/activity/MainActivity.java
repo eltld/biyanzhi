@@ -1,26 +1,17 @@
 package com.biyanzhi.activity;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import me.maxwin.view.XListView;
 import me.maxwin.view.XListView.IXListViewListener;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.AsyncTask.Status;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,9 +29,8 @@ import com.biyanzhi.utils.Constants;
 import com.biyanzhi.utils.FileUtils;
 import com.biyanzhi.utils.UniversalImageLoadTool;
 import com.dodola.model.DuitangInfo;
-import com.dodowaterfall.Helper;
-import com.dodowaterfall.widget.ScaleImageView;
-import com.example.android.bitmapfun.util.ImageFetcher;
+import com.huewu.pla.lib.internal.PLA_AdapterView;
+import com.huewu.pla.lib.internal.PLA_AdapterView.OnItemClickListener;
 
 public class MainActivity extends BaseActivity implements IXListViewListener,
 		SelectOnclick {
@@ -51,6 +41,7 @@ public class MainActivity extends BaseActivity implements IXListViewListener,
 	private SelectPicPopwindow pop;
 	private ImageView img_select;
 	private String cameraPath = "";
+	private LinkedList<DuitangInfo> mInfos = new LinkedList<DuitangInfo>();
 
 	/**
 	 * Ìí¼ÓÄÚÈÝ
@@ -64,9 +55,8 @@ public class MainActivity extends BaseActivity implements IXListViewListener,
 	}
 
 	public class StaggeredAdapter extends BaseAdapter {
-		private LinkedList<DuitangInfo> mInfos;
 
-		public StaggeredAdapter(Context context, XListView xListView) {
+		public StaggeredAdapter(Context context) {
 			mInfos = new LinkedList<DuitangInfo>();
 		}
 
@@ -142,7 +132,7 @@ public class MainActivity extends BaseActivity implements IXListViewListener,
 		mAdapterView = (XListView) findViewById(R.id.list);
 		mAdapterView.setPullLoadEnable(true);
 		mAdapterView.setXListViewListener(this);
-		mAdapter = new StaggeredAdapter(this, mAdapterView);
+		mAdapter = new StaggeredAdapter(this);
 		mAdapterView.setAdapter(mAdapter);
 		initView();
 	}
@@ -150,6 +140,15 @@ public class MainActivity extends BaseActivity implements IXListViewListener,
 	private void initView() {
 		img_select = (ImageView) findViewById(R.id.img_create);
 		img_select.setOnClickListener(this);
+		mAdapterView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(PLA_AdapterView<?> parent, View view,
+					int position, long id) {
+
+			}
+		});
+		mAdapterView.setSelector(R.drawable.list_item_bg);
 	}
 
 	@Override
@@ -161,8 +160,6 @@ public class MainActivity extends BaseActivity implements IXListViewListener,
 	public boolean onOptionsItemSelected(MenuItem item) {
 		return true;
 	}
-
-	
 
 	@Override
 	protected void onDestroy() {

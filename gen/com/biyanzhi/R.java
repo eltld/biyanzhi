@@ -1458,16 +1458,16 @@ containing a value of this type.
         public static final int scale42sp=0x7f070004;
     }
     public static final class drawable {
-        public static final int a=0x7f020000;
-        public static final int choose_image_delault=0x7f020001;
-        public static final int circle_item_bg=0x7f020002;
-        public static final int empty_photo=0x7f020003;
-        public static final int gridview_item_bg=0x7f020004;
-        public static final int ic_launcher=0x7f020005;
-        public static final int icon_back=0x7f020006;
-        public static final int icon_create_scene=0x7f020007;
-        public static final int icon_sel=0x7f020008;
-        public static final int icon_sel_off=0x7f020009;
+        public static final int choose_image_delault=0x7f020000;
+        public static final int circle_item_bg=0x7f020001;
+        public static final int empty_photo=0x7f020002;
+        public static final int gridview_item_bg=0x7f020003;
+        public static final int ic_launcher=0x7f020004;
+        public static final int icon_back=0x7f020005;
+        public static final int icon_create_scene=0x7f020006;
+        public static final int icon_sel=0x7f020007;
+        public static final int icon_sel_off=0x7f020008;
+        public static final int list_item_bg=0x7f020009;
         public static final int news_item_bg=0x7f02000a;
         public static final int ptr_rotate_arrow=0x7f02000b;
         public static final int red_circle=0x7f02000c;

@@ -12,8 +12,7 @@
         android:adjustViewBounds="true"
         android:maxHeight="200dip"
         android:maxWidth="200dip"
-        android:scaleType="centerCrop"
-        android:src="@drawable/a" />
+        android:scaleType="centerCrop" />
 
     <TextView
         android:id="@+id/txt_content"
