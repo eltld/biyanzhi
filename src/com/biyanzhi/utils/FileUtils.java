@@ -53,4 +53,14 @@ public class FileUtils {
 		}
 	}
 
+	/**
+	 * 得到绝对路径
+	 * 
+	 * @param dir
+	 * @return
+	 */
+	public static String getgetAbsoluteDir(String dir) {
+		return getRootDir() + dir;
+
+	}
 }
