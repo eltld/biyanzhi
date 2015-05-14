@@ -61,8 +61,8 @@ public class XListView extends MultiColumnListView implements OnScrollListener {
 	private final static int PULL_LOAD_MORE_DELTA = 50; // when pull up >= 50px
 														// at bottom, trigger
 														// load more.
-	private final static float OFFSET_RADIO = 1.8f; // support iOS like pull
-													// feature.
+	private final static float OFFSET_RADIO = 2.8f; // support iOS like pull
+													// feature. 1.8f
 
 	/**
 	 * @param context

@@ -35,7 +35,7 @@ import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
-import com.biyanzhi.data.enums.RetError;
+import com.biyanzhi.enums.RetError;
 import com.biyanzhi.utils.Logger.Level;
 
 /**
@@ -48,8 +48,8 @@ public class HttpUrlHelper {
 	// 192.168.1.108公司
 	// 123.56.46.254线上
 	// 192.168.1.101家
-	public static final int CONNECTION_TIMEOUT = 10 * 1000;
-	public static final int SO_TIMEOUT = 10 * 1000;
+	public static final int CONNECTION_TIMEOUT = 30 * 1000;
+	public static final int SO_TIMEOUT = 30 * 1000;
 	public static final String DEFAULT_HOST = "http://192.168.1.108:8080/biyanzhi/"; // 服务器地址
 
 	/**
@@ -287,7 +287,7 @@ public class HttpUrlHelper {
 		Iterator<?> iterator = map.entrySet().iterator();
 		for (int i = 0; i < files.size(); i++) {
 			FileBody fileBody = new FileBody(files.get(i), "image/pjpeg");
-			mpEntity.addPart("image" + i, fileBody);
+			mpEntity.addPart("image", fileBody);
 		}
 		try {
 			while (iterator.hasNext()) {
@@ -302,6 +302,8 @@ public class HttpUrlHelper {
 			}
 			post.setEntity(mpEntity);
 			HttpResponse response = client.execute(post);
+			Logger.out("HttpUrlHelper.upLoadPic_code", response.getStatusLine()
+					.getStatusCode() + "", Level.WARN);
 			if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
 				return EntityUtils.toString(response.getEntity(), "utf-8");
 			} else {

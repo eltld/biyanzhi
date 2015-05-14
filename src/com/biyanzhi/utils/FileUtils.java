@@ -28,6 +28,16 @@ public class FileUtils {
 		return Environment.getExternalStorageDirectory().getAbsolutePath();
 	}
 
+	public static String getAppRootDir() {
+		String sdpath = getRootDir();
+		File destDir = new File(sdpath + "/biyanzhi/");
+		if (!destDir.exists()) {// 创建文件�?
+			destDir.mkdirs();
+		}
+		createNoMediaFile();
+		return destDir.getAbsolutePath();
+	}
+
 	/**
 	 * 获取拍照路径
 	 */

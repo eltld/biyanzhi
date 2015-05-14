@@ -1,4 +1,4 @@
-package com.biyanzhi.data.enums;
+package com.biyanzhi.enums;
 
 import java.util.HashMap;
 import java.util.Map;
