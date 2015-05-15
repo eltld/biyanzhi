@@ -2,153 +2,65 @@ package com.biyanzhi.activity;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
-import me.maxwin.view.XListView;
-import me.maxwin.view.XListView.IXListViewListener;
-import android.content.Context;
+import android.app.Dialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.biyanzhi.R;
-import com.biyanzhi.chooseimage.SelectPhotoActivity;
+import com.biyanzhi.adapter.StaggeredAdapter;
+import com.biyanzhi.data.Picture;
+import com.biyanzhi.data.PictureList;
+import com.biyanzhi.enums.RetError;
 import com.biyanzhi.popwindow.SelectPicPopwindow;
 import com.biyanzhi.popwindow.SelectPicPopwindow.SelectOnclick;
+import com.biyanzhi.task.GetPictureListTask;
+import com.biyanzhi.task.PublishPictureTask;
 import com.biyanzhi.utils.Constants;
+import com.biyanzhi.utils.DialogUtil;
 import com.biyanzhi.utils.FileUtils;
-import com.biyanzhi.utils.UniversalImageLoadTool;
-import com.dodola.model.DuitangInfo;
-import com.huewu.pla.lib.internal.PLA_AdapterView;
-import com.huewu.pla.lib.internal.PLA_AdapterView.OnItemClickListener;
+import com.biyianzhi.interfaces.AbstractTaskPostCallBack;
+import com.etsy.android.grid.StaggeredGridView;
 
-public class MainActivity extends BaseActivity implements IXListViewListener,
-		SelectOnclick {
-	// private ImageFetcher mImageFetcher;
-	private XListView mAdapterView = null;
+public class MainActivity extends BaseActivity implements SelectOnclick {
 	private StaggeredAdapter mAdapter = null;
 	private int currentPage = 0;
 	private SelectPicPopwindow pop;
 	private ImageView img_select;
 	private String cameraPath = "";
-	private LinkedList<DuitangInfo> mInfos = new LinkedList<DuitangInfo>();
-
-	/**
-	 * 添加内容
-	 * 
-	 * @param pageindex
-	 * @param type
-	 *            1为下拉刷新 2为加载更多
-	 */
-	private void AddItemToContainer(int pageindex, int type) {
-
-	}
-
-	public class StaggeredAdapter extends BaseAdapter {
-
-		public StaggeredAdapter(Context context) {
-			mInfos = new LinkedList<DuitangInfo>();
-		}
-
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-
-			ViewHolder holder;
-			DuitangInfo duitangInfo = mInfos.get(position);
-
-			if (convertView == null) {
-				LayoutInflater layoutInflator = LayoutInflater.from(parent
-						.getContext());
-				convertView = layoutInflator.inflate(R.layout.infos_list, null);
-				holder = new ViewHolder();
-				holder.imageView = (ImageView) convertView
-						.findViewById(R.id.news_pic);
-				holder.contentView = (TextView) convertView
-						.findViewById(R.id.news_title);
-				convertView.setTag(holder);
-			}
-
-			holder = (ViewHolder) convertView.getTag();
-			// holder.imageView.setImageWidth(duitangInfo.getWidth());
-			// holder.imageView.setImageHeight(duitangInfo.getHeight());
-			System.out.println("hight::::::::::;" + duitangInfo.getHeight());
-			holder.contentView.setText(duitangInfo.getMsg());
-			// mImageFetcher.loadImage(duitangInfo.getIsrc(), holder.imageView);
-			String path = duitangInfo.getIsrc();
-			if (!path.startsWith("http")) {
-				path = "file://" + path;
-			}
-			UniversalImageLoadTool.disPlay(path, holder.imageView,
-					R.drawable.empty_photo);
-			return convertView;
-		}
-
-		class ViewHolder {
-			ImageView imageView;
-			TextView contentView;
-			TextView timeView;
-		}
-
-		@Override
-		public int getCount() {
-			return mInfos.size();
-		}
-
-		@Override
-		public Object getItem(int arg0) {
-			return mInfos.get(arg0);
-		}
-
-		@Override
-		public long getItemId(int arg0) {
-			return 0;
-		}
-
-		public void addItemLast(List<DuitangInfo> datas) {
-			mInfos.addAll(datas);
-		}
-
-		public void addItemTop(List<DuitangInfo> datas) {
-			for (DuitangInfo info : datas) {
-				mInfos.addFirst(info);
-			}
-		}
-	}
+	private Dialog dialog;
+	private List<Picture> mLists = new ArrayList<Picture>();
+	private PictureList list = new PictureList();
+	private StaggeredGridView mGridView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		mAdapterView = (XListView) findViewById(R.id.list);
-		mAdapterView.setPullLoadEnable(true);
-		mAdapterView.setXListViewListener(this);
-		mAdapter = new StaggeredAdapter(this);
-		mAdapterView.setAdapter(mAdapter);
 		initView();
+		setValue();
+		getPictureList();
 	}
 
 	private void initView() {
 		img_select = (ImageView) findViewById(R.id.img_create);
 		img_select.setOnClickListener(this);
-		mAdapterView.setOnItemClickListener(new OnItemClickListener() {
+		mGridView = (StaggeredGridView) findViewById(R.id.grid_view);
 
-			@Override
-			public void onItemClick(PLA_AdapterView<?> parent, View view,
-					int position, long id) {
+	}
 
-			}
-		});
-		mAdapterView.setSelector(R.drawable.list_item_bg);
+	private void setValue() {
+		mAdapter = new StaggeredAdapter(this, mLists);
+		mGridView.setAdapter(mAdapter);
+
 	}
 
 	@Override
@@ -164,18 +76,6 @@ public class MainActivity extends BaseActivity implements IXListViewListener,
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-
-	}
-
-	@Override
-	public void onRefresh() {
-		AddItemToContainer(++currentPage, 1);
-
-	}
-
-	@Override
-	public void onLoadMore() {
-		AddItemToContainer(++currentPage, 2);
 
 	}
 
@@ -207,32 +107,33 @@ public class MainActivity extends BaseActivity implements IXListViewListener,
 
 	@Override
 	public void menu2_select() {
-		Intent intent = new Intent();
-		intent.putExtra("count", 0);
-		intent.setClass(this, SelectPhotoActivity.class);
-		startActivityForResult(intent,
-				Constants.REQUEST_CODE_GETIMAGE_BYSDCARD_MORE);
+		Intent intent = new Intent(Intent.ACTION_PICK, null);
+		intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+				"image/*");
+		startActivityForResult(intent, Constants.REQUEST_CODE_GETIMAGE_BYSDCARD);
+
 	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if (requestCode == Constants.REQUEST_CODE_GETIMAGE_BYSDCARD_MORE) {
+		if (requestCode == Constants.REQUEST_CODE_GETIMAGE_BYSDCARD) {
 			if (resultCode == RESULT_OK) {
-				Bundle bundle = data.getExtras();
-				@SuppressWarnings("unchecked")
-				List<String> list = (List<String>) bundle
-						.getSerializable("imgPath");
-				List<DuitangInfo> result = new ArrayList<DuitangInfo>();
-				for (String m : list) {
-					DuitangInfo info = new DuitangInfo();
-					info.setHeight(300);
-					info.setIsrc(m);
-					info.setMsg("aaaaaaaaaaaaa");
-					result.add(info);
+				Uri uri = data.getData();
+				String[] proj = { MediaStore.Images.Media.DATA };
+				Cursor cursor = managedQuery(uri, proj, null, null, null);
+				if (cursor != null) {
+					int column_index = cursor
+							.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+					if (cursor.getCount() > 0 && cursor.moveToFirst()) {
+						String path = cursor.getString(column_index);
+						Picture picture = new Picture();
+						picture.setContent("啊阿斯达克");
+						picture.setPicture_image_url(path);
+						publishPic(picture);
+					}
 				}
-				mAdapter.addItemLast(result);
-				mAdapter.notifyDataSetChanged();
+
 			}
 		}
 		// 拍摄图片
@@ -248,6 +149,38 @@ public class MainActivity extends BaseActivity implements IXListViewListener,
 
 			// photoPathLists.add(photoPathLists.size() - 1, cameraPath);
 		}
+	}
+
+	private void publishPic(Picture picture) {
+		dialog = DialogUtil.createLoadingDialog(this);
+		dialog.show();
+		PublishPictureTask task = new PublishPictureTask();
+		task.setmCallBack(new AbstractTaskPostCallBack<RetError>() {
+			@Override
+			public void taskFinish(RetError result) {
+				if (dialog != null) {
+					dialog.dismiss();
+				}
+			}
+		});
+		task.executeParallel(picture);
+	}
+
+	private void getPictureList() {
+		dialog = DialogUtil.createLoadingDialog(this);
+		dialog.show();
+		GetPictureListTask task = new GetPictureListTask();
+		task.setmCallBack(new AbstractTaskPostCallBack<RetError>() {
+			@Override
+			public void taskFinish(RetError result) {
+				if (dialog != null) {
+					dialog.dismiss();
+				}
+				mLists.addAll(list.getPictureList());
+				mAdapter.notifyDataSetChanged();
+			}
+		});
+		task.executeParallel(list);
 	}
 }
 
