@@ -4,10 +4,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.maxwin.view.XListView;
-import me.maxwin.view.XListView.IXListViewListener;
 import android.app.Dialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -18,9 +17,7 @@ import android.widget.ImageView;
 
 import com.biyanzhi.R;
 import com.biyanzhi.adapter.StaggeredAdapter;
-import com.biyanzhi.chooseimage.SelectPhotoActivity;
 import com.biyanzhi.data.Picture;
-import com.biyanzhi.data.PictureImage;
 import com.biyanzhi.data.PictureList;
 import com.biyanzhi.enums.RetError;
 import com.biyanzhi.popwindow.SelectPicPopwindow;
@@ -32,12 +29,8 @@ import com.biyanzhi.utils.DialogUtil;
 import com.biyanzhi.utils.FileUtils;
 import com.biyianzhi.interfaces.AbstractTaskPostCallBack;
 import com.etsy.android.grid.StaggeredGridView;
-import com.huewu.pla.lib.internal.PLA_AdapterView;
-import com.huewu.pla.lib.internal.PLA_AdapterView.OnItemClickListener;
 
-public class MainActivity extends BaseActivity implements IXListViewListener,
-		SelectOnclick {
-	// private XListView mAdapterView = null;
+public class MainActivity extends BaseActivity implements SelectOnclick {
 	private StaggeredAdapter mAdapter = null;
 	private int currentPage = 0;
 	private SelectPicPopwindow pop;
@@ -47,17 +40,6 @@ public class MainActivity extends BaseActivity implements IXListViewListener,
 	private List<Picture> mLists = new ArrayList<Picture>();
 	private PictureList list = new PictureList();
 	private StaggeredGridView mGridView;
-
-	/**
-	 * 添加内容
-	 * 
-	 * @param pageindex
-	 * @param type
-	 *            1为下拉刷新 2为加载更多
-	 */
-	private void AddItemToContainer(int pageindex, int type) {
-
-	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -73,24 +55,11 @@ public class MainActivity extends BaseActivity implements IXListViewListener,
 		img_select.setOnClickListener(this);
 		mGridView = (StaggeredGridView) findViewById(R.id.grid_view);
 
-		// mAdapterView = (XListView) findViewById(R.id.list);
-		// mAdapterView.setPullLoadEnable(true);
-		// mAdapterView.setXListViewListener(this);
-		// mAdapterView.setOnItemClickListener(new OnItemClickListener() {
-		//
-		// @Override
-		// public void onItemClick(PLA_AdapterView<?> parent, View view,
-		// int position, long id) {
-		//
-		// }
-		// });
-		// mAdapterView.setSelector(R.drawable.list_item_bg);
 	}
 
 	private void setValue() {
 		mAdapter = new StaggeredAdapter(this, mLists);
 		mGridView.setAdapter(mAdapter);
-		// mAdapterView.setAdapter(mAdapter);
 
 	}
 
@@ -107,18 +76,6 @@ public class MainActivity extends BaseActivity implements IXListViewListener,
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-
-	}
-
-	@Override
-	public void onRefresh() {
-		AddItemToContainer(++currentPage, 1);
-
-	}
-
-	@Override
-	public void onLoadMore() {
-		AddItemToContainer(++currentPage, 2);
 
 	}
 
@@ -150,32 +107,33 @@ public class MainActivity extends BaseActivity implements IXListViewListener,
 
 	@Override
 	public void menu2_select() {
-		Intent intent = new Intent();
-		intent.putExtra("count", 0);
-		intent.setClass(this, SelectPhotoActivity.class);
-		startActivityForResult(intent,
-				Constants.REQUEST_CODE_GETIMAGE_BYSDCARD_MORE);
+		Intent intent = new Intent(Intent.ACTION_PICK, null);
+		intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+				"image/*");
+		startActivityForResult(intent, Constants.REQUEST_CODE_GETIMAGE_BYSDCARD);
+
 	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if (requestCode == Constants.REQUEST_CODE_GETIMAGE_BYSDCARD_MORE) {
+		if (requestCode == Constants.REQUEST_CODE_GETIMAGE_BYSDCARD) {
 			if (resultCode == RESULT_OK) {
-				Bundle bundle = data.getExtras();
-				@SuppressWarnings("unchecked")
-				List<String> list = (List<String>) bundle
-						.getSerializable("imgPath");
-				List<PictureImage> imageList = new ArrayList<PictureImage>();
-				for (String m : list) {
-					PictureImage img = new PictureImage();
-					img.setImage_url(m);
-					imageList.add(img);
+				Uri uri = data.getData();
+				String[] proj = { MediaStore.Images.Media.DATA };
+				Cursor cursor = managedQuery(uri, proj, null, null, null);
+				if (cursor != null) {
+					int column_index = cursor
+							.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+					if (cursor.getCount() > 0 && cursor.moveToFirst()) {
+						String path = cursor.getString(column_index);
+						Picture picture = new Picture();
+						picture.setContent("啊阿斯达克");
+						picture.setPicture_image_url(path);
+						publishPic(picture);
+					}
 				}
-				Picture picture = new Picture();
-				picture.setContent("啊阿斯达克");
-				picture.setImages(imageList);
-				publishPic(picture);
+
 			}
 		}
 		// 拍摄图片

@@ -40,10 +40,7 @@ public class StaggeredAdapter extends BaseAdapter {
 		}
 
 		holder = (ViewHolder) convertView.getTag();
-		// holder.imageView.setImageWidth(duitangInfo.getWidth());
-		// holder.imageView.setImageHeight(duitangInfo.getHeight());
 		holder.contentView.setText(picture.getContent());
-		// mImageFetcher.loadImage(duitangInfo.getIsrc(), holder.imageView);
 		String path = picture.getImages().get(0).getImage_url();
 		if (!path.startsWith("http")) {
 			path = "file://" + path;

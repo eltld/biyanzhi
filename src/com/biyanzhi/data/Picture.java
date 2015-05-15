@@ -22,6 +22,7 @@ public class Picture {
 	private String publisher_name = "";
 	private String publisher_avatar = "";
 	private List<PictureImage> images = new ArrayList<PictureImage>();
+	private String picture_image_url = "";
 
 	public int getPicture_id() {
 		return picture_id;
@@ -79,15 +80,16 @@ public class Picture {
 		this.images = images;
 	}
 
+	public String getPicture_image_url() {
+		return picture_image_url;
+	}
+
+	public void setPicture_image_url(String picture_image_url) {
+		this.picture_image_url = picture_image_url;
+	}
+
 	public RetError publishPicture() {
-		List<File> bytesimg = new ArrayList<File>();
-		for (PictureImage img : this.images) {
-			File file = BitmapUtils.getImageFile(img.getImage_url());
-			if (file == null) {
-				continue;
-			}
-			bytesimg.add(file);
-		}
+		File file = BitmapUtils.getImageFile(picture_image_url);
 		IParser parser = new SimpleParser();
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put("publisher_id", publisher_id);
@@ -95,9 +97,11 @@ public class Picture {
 		params.put("content", content);
 		params.put("publisher_name", publisher_name);
 		params.put("publisher_avatar", publisher_avatar);
-		Result ret = ApiRequest.uploadFileArrayWithToken(PUBLISH_PICTURE,
-				params, bytesimg, parser);
-		delImgFile(bytesimg);
+		Result ret = ApiRequest.requestWithFile(PUBLISH_PICTURE, params, file,
+				parser);
+		if (null != file & file.exists()) {
+			file.delete();
+		}
 		if (ret.getStatus() == RetStatus.SUCC) {
 			return RetError.NONE;
 		} else {
@@ -105,11 +109,4 @@ public class Picture {
 		}
 	}
 
-	private void delImgFile(List<File> files) {
-		for (File file : files) {
-			if (file.exists()) {
-				file.delete();
-			}
-		}
-	}
 }
