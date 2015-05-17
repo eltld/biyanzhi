@@ -70,15 +70,17 @@ public class DialogUtil {
 
 			}
 		});
-		dialog.setButton2(txtCancle, new PromptDialog.OnClickListener() {
+		if (txtCancle != null) {
+			dialog.setButton2(txtCancle, new PromptDialog.OnClickListener() {
 
-			@Override
-			public void onClick(Dialog dialog, int which) {
-				dialog.dismiss();
-				callBack.onCancleClick();
+				@Override
+				public void onClick(Dialog dialog, int which) {
+					dialog.dismiss();
+					callBack.onCancleClick();
 
-			}
-		});
+				}
+			});
+		}
 
 		return dialog;
 

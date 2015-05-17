@@ -1,0 +1,49 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/layout_title"
+        android:layout_width="match_parent"
+        layout="@layout/title_bar" />
+
+    <com.biyanzhi.view.RoundAngleImageView
+        android:id="@+id/img"
+        android:layout_width="71dp"
+        android:layout_height="71dp"
+        android:layout_marginLeft="20dip"
+        android:layout_marginTop="20dip"
+        android:scaleType="centerCrop"
+        android:src="@drawable/add_pic" />
+
+    <EditText
+        android:id="@+id/txt_content"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dip"
+        android:background="@drawable/comment_edit"
+        android:gravity="top"
+        android:hint="简单介绍一下"
+        android:maxLength="999"
+        android:minHeight="100dip"
+        android:padding="10dip"
+        android:textColor="#818181"
+        android:textSize="15sp" >
+    </EditText>
+
+    <Button
+        android:id="@+id/btnUpload"
+        android:layout_width="fill_parent"
+        android:layout_height="45dip"
+        android:layout_margin="10dip"
+        android:layout_marginBottom="30dip"
+        android:layout_marginTop="20dip"
+        android:background="@drawable/btn_selector"
+        android:text="发布"
+        android:textColor="@color/white"
+        android:textSize="21sp" />
+
+</LinearLayout>

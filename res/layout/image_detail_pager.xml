@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/Layparent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:orientation="vertical" >
+
+    <com.biyanzhi.view.HackyViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent" />
+
+    <LinearLayout
+        android:id="@+id/layTitle"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:visibility="invisible" >
+
+        <ImageView
+            android:id="@+id/imgBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dip"
+            android:padding="10dip"
+            android:src="@drawable/icon_back" />
+
+        <TextView
+            android:id="@+id/indicator"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:gravity="center"
+            android:paddingBottom="@dimen/scale40dip"
+            android:paddingTop="@dimen/scale40dip"
+            android:text="@string/viewpager_indicator"
+            android:textColor="@color/white"
+            android:textSize="23sp" />
+
+        <ImageView
+            android:id="@+id/imgSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="15dip"
+            android:src="@drawable/action_save" />
+    </LinearLayout>
+
+</RelativeLayout>

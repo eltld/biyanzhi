@@ -2,6 +2,7 @@ package com.biyanzhi.utils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -11,6 +12,29 @@ import android.graphics.Matrix;
 import android.media.ExifInterface;
 
 public class BitmapUtils {
+	/**
+	 * 将Bitmap文件保存为本地文件
+	 * 
+	 * @param bmp
+	 * @param filename
+	 */
+	public static void createImgToFile(Bitmap bmp, String filename) {
+		FileOutputStream b = null;
+		try {
+			b = new FileOutputStream(filename);
+			bmp.compress(Bitmap.CompressFormat.JPEG, 100, b);// 把数据写入文件
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				b.flush();
+				b.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 	/**
 	 * 读取图片文件旋转的角度
 	 * 

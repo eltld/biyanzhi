@@ -6,5 +6,6 @@
     <color name="bg_color">#e8eef3</color>
     <color name="black">#000000</color>
     <color name="color_d5">#d5d5d5</color>
+    <color name="gray">#ff7f7f7f</color>
 
 </resources>

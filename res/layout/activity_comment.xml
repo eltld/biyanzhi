@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:id="@+id/layout_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp104"
+        android:background="@color/titleBarBackGround" >
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="@dimen/dp26"
+            android:paddingRight="16dip"
+            android:src="@drawable/icon_back" />
+
+        <RatingBar
+            android:id="@+id/ratingbar"
+            style="@style/roomRatingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:numStars="5" >
+        </RatingBar>
+
+        <TextView
+            android:id="@+id/txt_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dip"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/layout_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/line1"
+        android:layout_below="@+id/layout_title"
+        android:background="@color/bg_color"
+        android:scrollbars="none" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dip"
+                android:layout_marginLeft="50dip"
+                android:layout_marginRight="50dip"
+                android:layout_marginTop="10dip"
+                android:background="@drawable/news_item_bg" >
+
+                <!-- com.interestfriend.view.RoundAngleImageView -->
+
+                <com.biyanzhi.view.RoundAngleImageView
+                    android:id="@+id/img_avatar"
+                    android:layout_width="35dip"
+                    android:layout_height="35dip"
+                    android:layout_marginLeft="3dip"
+                    android:layout_marginTop="3dip"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/default_avatar" />
+
+                <TextView
+                    android:id="@+id/txt_user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dip"
+                    android:layout_marginTop="5dp"
+                    android:layout_toRightOf="@+id/img_avatar"
+                    android:singleLine="true"
+                    android:text="舒淇"
+                    android:textColor="#485355"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/txt_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txt_user_name"
+                    android:layout_marginLeft="10dip"
+                    android:layout_toRightOf="@+id/img_avatar"
+                    android:gravity="center"
+                    android:text="2014"
+                    android:textColor="#656565"
+                    android:textSize="10sp" />
+
+                <View
+                    android:id="@+id/line2"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dip"
+                    android:layout_below="@+id/img_avatar"
+                    android:layout_marginBottom="5dip"
+                    android:layout_marginTop="5dip"
+                    android:background="#d5d5d5" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/line2"
+                    android:orientation="vertical" >
+
+                    <ImageView
+                        android:id="@+id/img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:adjustViewBounds="true"
+                        android:maxHeight="400dip"
+                        android:maxWidth="300dip"
+                        android:scaleType="centerCrop" />
+
+                    <TextView
+                        android:id="@+id/txt_content"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:text="无病呻吟"
+                        android:textColor="#656565"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:orientation="vertical"
+                android:visibility="gone" >
+
+                <View
+                    android:id="@+id/view_top"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dip"
+                    android:background="#d5d5d5" />
+
+                <com.biyanzhi.view.ScrollViewWithListView
+                    android:id="@+id/listView1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:cacheColorHint="#00000000"
+                    android:divider="#d5d5d5"
+                    android:dividerHeight="0.5dip"
+                    android:focusable="false"
+                    android:listSelector="#00000000"
+                    android:scrollbars="none" />
+
+                <View
+                    android:id="@+id/view_bottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dip"
+                    android:background="#d5d5d5" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <View
+        android:id="@+id/line1"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dip"
+        android:layout_above="@+id/buttom"
+        android:background="#d5d5d5" />
+
+    <LinearLayout
+        android:id="@+id/buttom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:background="#f7f7f7"
+        android:gravity="center"
+        android:padding="5dip" >
+
+        <EditText
+            android:id="@+id/edit_content"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/comment_edit"
+            android:hint="输入回复内容"
+            android:paddingBottom="8dip"
+            android:paddingLeft="10dip"
+            android:paddingTop="8dip"
+            android:scrollbars="vertical"
+            android:textSize="14sp" >
+        </EditText>
+
+        <Button
+            android:id="@+id/btnComment"
+            android:layout_width="wrap_content"
+            android:layout_height="35dip"
+            android:layout_marginLeft="5dip"
+            android:background="@drawable/chat_press_speak_btn"
+            android:gravity="center"
+            android:paddingBottom="6dip"
+            android:paddingLeft="15dip"
+            android:paddingRight="15dip"
+            android:paddingTop="6dip"
+            android:text="回复 "
+            android:textColor="@color/gray"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+</RelativeLayout>

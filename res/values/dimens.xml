@@ -6,5 +6,6 @@
     <dimen name="dp104">49dip</dimen>
     <dimen name="dp26">12dip</dimen>
     <dimen name="scale42sp">20sp</dimen>
+    <dimen name="scale40dip">19dip</dimen>
 
 </resources>

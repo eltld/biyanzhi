@@ -3,16 +3,20 @@ package com.biyanzhi.adapter;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.biyanzhi.R;
+import com.biyanzhi.activity.PictureCommentActivity;
 import com.biyanzhi.data.Picture;
 import com.biyanzhi.utils.UniversalImageLoadTool;
+import com.biyanzhi.utils.Utils;
 
 public class StaggeredAdapter extends BaseAdapter {
 	private List<Picture> mLists;
@@ -37,16 +41,23 @@ public class StaggeredAdapter extends BaseAdapter {
 			holder.contentView = (TextView) convertView
 					.findViewById(R.id.news_title);
 			convertView.setTag(holder);
+		} else {
+			holder = (ViewHolder) convertView.getTag();
 		}
-
-		holder = (ViewHolder) convertView.getTag();
-		holder.contentView.setText(picture.getContent());
-		String path = picture.getImages().get(0).getImage_url();
+		String content = picture.getContent();
+		if ("".equals(content)) {
+			holder.contentView.setVisibility(View.GONE);
+		} else {
+			holder.contentView.setVisibility(View.VISIBLE);
+			holder.contentView.setText(picture.getContent());
+		}
+		String path = picture.getPicture_image_url();
 		if (!path.startsWith("http")) {
 			path = "file://" + path;
 		}
 		UniversalImageLoadTool.disPlay(path, holder.imageView,
 				R.drawable.empty_photo);
+		holder.imageView.setOnClickListener(new OnClick(position));
 		return convertView;
 	}
 
@@ -69,5 +80,22 @@ public class StaggeredAdapter extends BaseAdapter {
 		ImageView imageView;
 		TextView contentView;
 		TextView timeView;
+	}
+
+	class OnClick implements OnClickListener {
+		private int position;
+
+		public OnClick(int position) {
+			this.position = position;
+		}
+
+		@Override
+		public void onClick(View v) {
+			mContext.startActivity(new Intent(mContext,
+					PictureCommentActivity.class).putExtra("picture",
+					mLists.get(position)));
+			Utils.leftOutRightIn(mContext);
+		}
+
 	}
 }

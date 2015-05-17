@@ -1,6 +1,7 @@
 package com.biyanzhi.data;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,7 +14,7 @@ import com.biyanzhi.parser.IParser;
 import com.biyanzhi.parser.SimpleParser;
 import com.biyanzhi.utils.BitmapUtils;
 
-public class Picture {
+public class Picture implements Serializable {
 	private static final String PUBLISH_PICTURE = "addpicture.do";
 	private int picture_id;
 	private int publisher_id = 0;
@@ -23,6 +24,7 @@ public class Picture {
 	private String publisher_avatar = "";
 	private List<PictureImage> images = new ArrayList<PictureImage>();
 	private String picture_image_url = "";
+	private int average_score;
 
 	public int getPicture_id() {
 		return picture_id;
@@ -86,6 +88,14 @@ public class Picture {
 
 	public void setPicture_image_url(String picture_image_url) {
 		this.picture_image_url = picture_image_url;
+	}
+
+	public int getAverage_score() {
+		return average_score;
+	}
+
+	public void setAverage_score(int average_score) {
+		this.average_score = average_score;
 	}
 
 	public RetError publishPicture() {

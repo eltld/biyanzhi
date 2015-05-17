@@ -48,6 +48,22 @@
             android:name=".chooseimage.SelectPhotoActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name=".activity.PublicshPictureActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.biyanzhi.showbigimage.ImagePagerActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.PictureCommentActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".showbigimage.ImagePagerActivity"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
 </manifest>

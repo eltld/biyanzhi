@@ -8,6 +8,15 @@ import java.text.SimpleDateFormat;
 import android.os.Environment;
 
 public class FileUtils {
+	public static String getImgSavePath() {
+		String path = getRootDir() + "/biyanzhiImgSave/";
+		File destDir = new File(path);
+		if (!destDir.exists()) {// 创建文件�?
+			destDir.mkdirs();
+		}
+		return path;
+	}
+
 	/**
 	 * 使用当前时间戳拼接一个文件名
 	 * 

@@ -24,15 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:singleLine="false"
-        android:textColor="#656565" />
-
-    <TextView
-        android:id="@+id/news_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right|bottom"
-        android:gravity="right"
-        android:textColor="#9f9f9f"
-        android:visibility="gone" />
+        android:textColor="#656565"
+        android:textSize="13sp" />
 
 </LinearLayout>
