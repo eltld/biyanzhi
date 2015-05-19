@@ -61,7 +61,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".showbigimage.ImagePagerActivity"
+            android:name=".activity.ImageDelPagerActivity"
             android:screenOrientation="portrait" >
         </activity>
     </application>

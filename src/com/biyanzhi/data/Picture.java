@@ -3,6 +3,7 @@ package com.biyanzhi.data;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -25,6 +26,8 @@ public class Picture implements Serializable {
 	private List<PictureImage> images = new ArrayList<PictureImage>();
 	private String picture_image_url = "";
 	private int average_score;
+	private int picture_image_height;
+	private int picture_image_width;
 
 	public int getPicture_id() {
 		return picture_id;
@@ -98,7 +101,24 @@ public class Picture implements Serializable {
 		this.average_score = average_score;
 	}
 
+	public int getPicture_image_height() {
+		return picture_image_height;
+	}
+
+	public void setPicture_image_height(int picture_image_height) {
+		this.picture_image_height = picture_image_height;
+	}
+
+	public int getPicture_image_width() {
+		return picture_image_width;
+	}
+
+	public void setPicture_image_width(int picture_image_width) {
+		this.picture_image_width = picture_image_width;
+	}
+
 	public RetError publishPicture() {
+		int wh[] = BitmapUtils.getBitmapHeightAndWidth(picture_image_url);
 		File file = BitmapUtils.getImageFile(picture_image_url);
 		IParser parser = new SimpleParser();
 		HashMap<String, Object> params = new HashMap<String, Object>();
@@ -107,6 +127,9 @@ public class Picture implements Serializable {
 		params.put("content", content);
 		params.put("publisher_name", publisher_name);
 		params.put("publisher_avatar", publisher_avatar);
+		params.put("picture_image_width", wh[1]);
+		params.put("picture_image_height", wh[0]);
+
 		Result ret = ApiRequest.requestWithFile(PUBLISH_PICTURE, params, file,
 				parser);
 		if (null != file & file.exists()) {
@@ -118,5 +141,4 @@ public class Picture implements Serializable {
 			return ret.getErr();
 		}
 	}
-
 }

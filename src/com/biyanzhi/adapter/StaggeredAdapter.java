@@ -8,8 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.biyanzhi.R;
@@ -51,6 +53,11 @@ public class StaggeredAdapter extends BaseAdapter {
 			holder.contentView.setVisibility(View.VISIBLE);
 			holder.contentView.setText(picture.getContent());
 		}
+		// LinearLayout.LayoutParams sp_params = new LinearLayout.LayoutParams(
+		// LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+		// sp_params.width = picture.getPicture_image_width();
+		// sp_params.height = picture.getPicture_image_height();
+		// holder.imageView.setLayoutParams(sp_params);
 		String path = picture.getPicture_image_url();
 		if (!path.startsWith("http")) {
 			path = "file://" + path;

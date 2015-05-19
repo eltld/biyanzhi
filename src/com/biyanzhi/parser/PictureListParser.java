@@ -33,6 +33,9 @@ public class PictureListParser implements IParser {
 			String content = obj.getString("content");
 			String picture_image_url = obj.getString("picture_image_url");
 			int average_score = obj.getInt("average_score");
+			int picture_image_width = obj.getInt("picture_image_width");
+			int picture_image_height = obj.getInt("picture_image_height");
+
 			// JSONArray jsonImages = obj.getJSONArray("images");
 			// List<PictureImage> images = new ArrayList<PictureImage>();
 			// for (int j = 0; j < jsonImages.length(); j++) {
@@ -54,6 +57,8 @@ public class PictureListParser implements IParser {
 			picture.setPublisher_name(publisher_name);
 			picture.setPicture_image_url(picture_image_url);
 			picture.setAverage_score(average_score);
+			picture.setPicture_image_height(picture_image_height);
+			picture.setPicture_image_width(picture_image_width);
 			lists.add(picture);
 		}
 		PictureList cl = new PictureList();

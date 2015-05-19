@@ -117,12 +117,13 @@ public class BitmapUtils {
 		return resizeBmp;
 	}
 
-	public static int getBitmapHeight(String path) {
+	public static int[] getBitmapHeightAndWidth(String path) {
+
 		Bitmap bmp = FitSizeImg(path);
 		if (bmp != null) {
-			return bmp.getHeight();
+			return new int[] { bmp.getHeight(), bmp.getWidth() };
 		}
-		return 0;
+		return new int[] { 0, 0 };
 	}
 
 	public static File getImageFile(String srcPath) {

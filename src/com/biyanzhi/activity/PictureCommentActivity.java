@@ -64,6 +64,8 @@ public class PictureCommentActivity extends BaseActivity implements
 	private RatingBar ratingBar;
 	private TextView txt_score;
 
+	private boolean autoChange;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -96,9 +98,12 @@ public class PictureCommentActivity extends BaseActivity implements
 		edit_comment.addTextChangedListener(this);
 		Utils.getFocus(layout_title);
 		ratingBar.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {
-
 			@Override
 			public void onRatingChanged(RatingBar arg0, float arg1, boolean arg2) {
+				if (!autoChange) {
+					autoChange = true;
+					return;
+				}
 				txt_score.setText((int) (arg1 * 20) + "(分)");
 				showScore((int) (arg1 * 20));
 			}
@@ -106,13 +111,21 @@ public class PictureCommentActivity extends BaseActivity implements
 	}
 
 	private void setValue() {
-		txt_context.setText(picture.getContent());
+		String content = picture.getContent();
+		if ("".equals(content)) {
+			txt_context.setVisibility(View.GONE);
+		} else {
+			txt_context.setText(picture.getContent());
+		}
 		txt_time.setText(picture.getPublish_time());
 		UniversalImageLoadTool.disPlay(picture.getPicture_image_url(), img,
 				R.drawable.empty_photo);
-		ratingBar.setRating(picture.getAverage_score() / 20);
 		if (picture.getAverage_score() != 0) {
+			autoChange = false;
+			ratingBar.setRating((float) picture.getAverage_score() / 20);
 			txt_score.setText(picture.getAverage_score() + "(分)");
+		} else {
+			autoChange = true;
 		}
 	}
 
@@ -174,9 +187,9 @@ public class PictureCommentActivity extends BaseActivity implements
 	private void showScore(final int score) {
 		String str = "";
 		if (score >= 80) {
-			str = "你给TA打的分数很高哦,我TA猜是个美女(帅哥)";
+			str = score + "分 你给TA打的分数很高哦,我猜TA是个美女(帅哥)";
 		} else {
-			str = "看来TA不是你的菜,分数不够高哦";
+			str = score + "分 看来TA不是你的菜,分数不够高哦";
 
 		}
 		PromptDialog.Builder dialog = DialogUtil.confirmDialog(this, str, "确定",
