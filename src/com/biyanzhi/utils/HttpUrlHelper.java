@@ -50,7 +50,7 @@ public class HttpUrlHelper {
 	// 192.168.1.101家
 	public static final int CONNECTION_TIMEOUT = 30 * 1000;
 	public static final int SO_TIMEOUT = 30 * 1000;
-	public static final String DEFAULT_HOST = "http://192.168.1.108:8080/biyanzhi/"; // 服务器地址
+	public static final String DEFAULT_HOST = "http://192.168.1.102:8080/biyanzhi/"; // 服务器地址
 
 	/**
 	 * get 提交方式 // *

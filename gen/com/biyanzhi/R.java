@@ -1649,7 +1649,7 @@ containing a value of this type.
         public static final int img=0x7f090039;
         public static final int imgBack=0x7f090067;
         public static final int imgSave=0x7f090068;
-        public static final int img_avatar=0x7f090035;
+        public static final int img_avatar=0x7f090034;
         public static final int img_create=0x7f090046;
         public static final int indicator=0x7f090042;
         public static final int inherit=0x7f090017;
@@ -1661,12 +1661,12 @@ containing a value of this type.
         public static final int layout_addview=0x7f090059;
         public static final int layout_comment=0x7f09003b;
         public static final int layout_parent=0x7f09007c;
-        public static final int layout_scroll=0x7f090033;
+        public static final int layout_scroll=0x7f090032;
         public static final int layout_title=0x7f09002f;
         public static final int left=0x7f090011;
         public static final int like=0x7f090071;
-        public static final int line1=0x7f090034;
-        public static final int line2=0x7f090038;
+        public static final int line1=0x7f090033;
+        public static final int line2=0x7f090037;
         public static final int listView=0x7f090051;
         public static final int listView1=0x7f09003d;
         public static final int loading=0x7f090064;
@@ -1699,7 +1699,7 @@ containing a value of this type.
         public static final int ptr_id_spinner=0x7f090077;
         public static final int ptr_id_text=0x7f090079;
         public static final int ptr_id_textwrapper=0x7f090078;
-        public static final int ratingbar=0x7f090031;
+        public static final int ratingbar=0x7f090038;
         public static final int right=0x7f090012;
         public static final int rightImg=0x7f090081;
         public static final int rtl=0x7f090016;
@@ -1720,9 +1720,9 @@ containing a value of this type.
         public static final int txt_info=0x7f09006d;
         public static final int txt_num=0x7f09006e;
         public static final int txt_num_show=0x7f090055;
-        public static final int txt_score=0x7f090032;
-        public static final int txt_time=0x7f090037;
-        public static final int txt_user_name=0x7f090036;
+        public static final int txt_score=0x7f090031;
+        public static final int txt_time=0x7f090036;
+        public static final int txt_user_name=0x7f090035;
         public static final int vertical=0x7f090005;
         public static final int viewEnd=0x7f090020;
         public static final int viewStart=0x7f09001f;

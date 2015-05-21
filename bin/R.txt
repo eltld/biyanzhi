@@ -232,7 +232,7 @@ int id imageView 0x7f09006c
 int id img 0x7f090039
 int id imgBack 0x7f090067
 int id imgSave 0x7f090068
-int id img_avatar 0x7f090035
+int id img_avatar 0x7f090034
 int id img_create 0x7f090046
 int id indicator 0x7f090042
 int id inherit 0x7f090017
@@ -244,12 +244,12 @@ int id layTitle 0x7f090066
 int id layout_addview 0x7f090059
 int id layout_comment 0x7f09003b
 int id layout_parent 0x7f09007c
-int id layout_scroll 0x7f090033
+int id layout_scroll 0x7f090032
 int id layout_title 0x7f09002f
 int id left 0x7f090011
 int id like 0x7f090071
-int id line1 0x7f090034
-int id line2 0x7f090038
+int id line1 0x7f090033
+int id line2 0x7f090037
 int id listView 0x7f090051
 int id listView1 0x7f09003d
 int id loading 0x7f090064
@@ -282,7 +282,7 @@ int id ptr_id_last_updated 0x7f09007a
 int id ptr_id_spinner 0x7f090077
 int id ptr_id_text 0x7f090079
 int id ptr_id_textwrapper 0x7f090078
-int id ratingbar 0x7f090031
+int id ratingbar 0x7f090038
 int id right 0x7f090012
 int id rightImg 0x7f090081
 int id rtl 0x7f090016
@@ -303,9 +303,9 @@ int id txt_content 0x7f09003a
 int id txt_info 0x7f09006d
 int id txt_num 0x7f09006e
 int id txt_num_show 0x7f090055
-int id txt_score 0x7f090032
-int id txt_time 0x7f090037
-int id txt_user_name 0x7f090036
+int id txt_score 0x7f090031
+int id txt_time 0x7f090036
+int id txt_user_name 0x7f090035
 int id vertical 0x7f090005
 int id viewEnd 0x7f090020
 int id viewStart 0x7f09001f

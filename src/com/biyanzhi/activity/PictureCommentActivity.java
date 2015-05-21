@@ -11,6 +11,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -28,7 +29,6 @@ import com.biyanzhi.showbigimage.ImagePagerActivity;
 import com.biyanzhi.task.SendPictureScoreTask;
 import com.biyanzhi.utils.Constants;
 import com.biyanzhi.utils.DialogUtil;
-import com.biyanzhi.utils.ToastUtil;
 import com.biyanzhi.utils.UniversalImageLoadTool;
 import com.biyanzhi.utils.Utils;
 import com.biyianzhi.interfaces.AbstractTaskPostCallBack;
@@ -88,6 +88,9 @@ public class PictureCommentActivity extends BaseActivity implements
 		comment_layout = (LinearLayout) findViewById(R.id.layout_comment);
 		ratingBar = (RatingBar) findViewById(R.id.ratingbar);
 		txt_score = (TextView) findViewById(R.id.txt_score);
+		LayoutParams layoutParams = img.getLayoutParams();
+		layoutParams.width = Utils.getSecreenWidth(this) - 100;
+		img.setLayoutParams(layoutParams);
 		setListener();
 	}
 
