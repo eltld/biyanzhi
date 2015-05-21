@@ -6,7 +6,7 @@
     android:background="@drawable/item_bg"
     android:orientation="vertical" >
 
-    <ImageView
+    <com.biyanzhi.view.RoundAnglePictureImageView
         android:id="@+id/img"
         android:layout_width="300dip"
         android:layout_height="300dip"
@@ -26,6 +26,7 @@
         android:text="无病呻吟"
         android:textColor="#666666"
         android:textSize="12sp" />
+    <!-- android:background="#7dd5d5d5" -->
 
     <View
         android:layout_width="match_parent"
@@ -33,7 +34,7 @@
         android:background="#d5d5d5" />
 
     <TextView
-        android:id="@+id/txt_content"
+        android:id="@+id/txt_score"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dip"

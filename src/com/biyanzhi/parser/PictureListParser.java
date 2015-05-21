@@ -35,6 +35,7 @@ public class PictureListParser implements IParser {
 			int average_score = obj.getInt("average_score");
 			int picture_image_width = obj.getInt("picture_image_width");
 			int picture_image_height = obj.getInt("picture_image_height");
+			int score_number = obj.getInt("score_number");
 
 			// JSONArray jsonImages = obj.getJSONArray("images");
 			// List<PictureImage> images = new ArrayList<PictureImage>();
@@ -59,6 +60,7 @@ public class PictureListParser implements IParser {
 			picture.setAverage_score(average_score);
 			picture.setPicture_image_height(picture_image_height);
 			picture.setPicture_image_width(picture_image_width);
+			picture.setScore_number(score_number);
 			lists.add(picture);
 		}
 		PictureList cl = new PictureList();

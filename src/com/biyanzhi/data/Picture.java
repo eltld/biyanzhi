@@ -28,6 +28,15 @@ public class Picture implements Serializable {
 	private int average_score;
 	private int picture_image_height;
 	private int picture_image_width;
+	private int score_number;// 打分人数
+
+	public int getScore_number() {
+		return score_number;
+	}
+
+	public void setScore_number(int score_number) {
+		this.score_number = score_number;
+	}
 
 	public int getPicture_id() {
 		return picture_id;

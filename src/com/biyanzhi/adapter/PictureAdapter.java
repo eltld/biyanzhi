@@ -4,13 +4,13 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -19,6 +19,7 @@ import com.biyanzhi.activity.PictureCommentActivity;
 import com.biyanzhi.data.Picture;
 import com.biyanzhi.utils.UniversalImageLoadTool;
 import com.biyanzhi.utils.Utils;
+import com.biyanzhi.view.RoundAnglePictureImageView;
 
 public class PictureAdapter extends BaseAdapter {
 	private List<Picture> mLists;
@@ -28,7 +29,7 @@ public class PictureAdapter extends BaseAdapter {
 	public PictureAdapter(Context context, List<Picture> mLists) {
 		this.mLists = mLists;
 		this.mContext = context;
-		width = Utils.getSecreenWidth(context) / 2;
+		width = Utils.getSecreenWidth(context) / 2 - 18;// 24 margin值
 	}
 
 	@Override
@@ -41,23 +42,23 @@ public class PictureAdapter extends BaseAdapter {
 			convertView = layoutInflator.inflate(R.layout.grid_view_item_1,
 					null);
 			holder = new ViewHolder();
-			holder.imageView = (ImageView) convertView.findViewById(R.id.img);
+			holder.imageView = (RoundAnglePictureImageView) convertView
+					.findViewById(R.id.img);
 			holder.contentView = (TextView) convertView
 					.findViewById(R.id.txt_content);
 			holder.parent_layout = (LinearLayout) convertView
 					.findViewById(R.id.parent);
+			holder.txt_score = (TextView) convertView
+					.findViewById(R.id.txt_score);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-		String content = picture.getContent();
-		if ("".equals(content)) {
-			holder.contentView.setVisibility(View.GONE);
-		} else {
-			holder.contentView.setVisibility(View.VISIBLE);
-			holder.contentView.setText(picture.getContent());
-		}
-
+		holder.txt_score.setText(Html.fromHtml("<font color=#F06617>"
+				+ picture.getScore_number() + "人</font>  参与评分 平均"
+				+ "<font color=#F06617>(" + picture.getAverage_score()
+				+ "分)</font>"));
+		holder.contentView.setText(picture.getContent());
 		LayoutParams layoutParams = holder.imageView.getLayoutParams();
 		layoutParams.width = width;
 		layoutParams.height = width;
@@ -89,9 +90,10 @@ public class PictureAdapter extends BaseAdapter {
 
 	class ViewHolder {
 		LinearLayout parent_layout;
-		ImageView imageView;
+		RoundAnglePictureImageView imageView;
 		TextView contentView;
 		TextView timeView;
+		TextView txt_score;
 	}
 
 	class OnClick implements OnClickListener {
