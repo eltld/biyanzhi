@@ -55,7 +55,7 @@ public class PictureAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		holder.txt_score.setText(Html.fromHtml("<font color=#F06617>"
-				+ picture.getScore_number() + "人</font>  参与评分 平均"
+				+ picture.getScore_number() + "人</font>  参与评分 平均颜值"
 				+ "<font color=#F06617>(" + picture.getAverage_score()
 				+ "分)</font>"));
 		holder.contentView.setText(picture.getContent());

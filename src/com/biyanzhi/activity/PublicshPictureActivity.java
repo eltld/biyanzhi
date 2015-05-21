@@ -29,6 +29,7 @@ import com.biyanzhi.task.PublishPictureTask;
 import com.biyanzhi.utils.Constants;
 import com.biyanzhi.utils.DialogUtil;
 import com.biyanzhi.utils.FileUtils;
+import com.biyanzhi.utils.ToastUtil;
 import com.biyanzhi.view.RoundAngleImageView;
 import com.biyianzhi.interfaces.AbstractTaskPostCallBack;
 
@@ -58,7 +59,7 @@ public class PublicshPictureActivity extends BaseActivity implements
 		image = (RoundAngleImageView) findViewById(R.id.img);
 		back = (ImageView) findViewById(R.id.back);
 		txt_title = (TextView) findViewById(R.id.title_txt);
-		txt_title.setText("上传颜值照片");
+		txt_title.setText("上传照片");
 		btnPublish = (Button) findViewById(R.id.btnUpload);
 		content = (EditText) findViewById(R.id.txt_content);
 		setListener();
@@ -154,8 +155,13 @@ public class PublicshPictureActivity extends BaseActivity implements
 			finishThisActivity();
 			break;
 		case R.id.btnUpload:
+			String str_content = content.getText().toString().trim();
+			if (str_content.length() == 0) {
+				ToastUtil.showToast("随便说点啥吧");
+				return;
+			}
 			Picture picture = new Picture();
-			picture.setContent(content.getText().toString());
+			picture.setContent(str_content);
 			picture.setPicture_image_url(image_path);
 			publishPic(picture);
 			break;
